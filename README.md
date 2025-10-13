@@ -61,7 +61,7 @@ int main( int argc, char** argv ) {
         &ctx, "some-section", "some-other-value", "this is a formatted comment: %d", 10 );
 
     // or write a comment for a section
-    ini_set_comment(
+    ini_set_section_comment(
         &ctx, "some-section",
         "this is a comment for the whole section. it is also formatted: %s", "foo" );
 
