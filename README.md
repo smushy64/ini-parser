@@ -4,7 +4,7 @@ Simple header-only library for parsing .ini files.
 
 ## Usage
 ```c
-#include "ini-parse.h"
+#include "ini-parser.h"
 
 int main( int argc, char** argv ) {
     // create a zero-initialized context.

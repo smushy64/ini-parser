@@ -4,7 +4,7 @@
  * @author Alicia Amarilla (smushyaa@gmail.com)
  * @date   October 11, 2025
 */
-#include "ini-parse.h"
+#include "ini-parser.h"
 
 int main( int argc, char** argv ) {
     const char* path = "example.ini";

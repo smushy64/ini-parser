@@ -1,7 +1,7 @@
-#if !defined(INI_PARSE_H)
-#define INI_PARSE_H
+#if !defined(INI_PARSER_H)
+#define INI_PARSER_H
 /**
- * @file   ini-parse.h
+ * @file   ini-parser.h
  * @brief  Header-only simple .ini parser.
  * @author Alicia Amarilla (smushyaa@gmail.com)
  * @date   October 10, 2025
