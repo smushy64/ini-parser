@@ -1,34 +1,77 @@
 /**
  * @file   example.c
- * @brief  Example.
- * @author Alicia Amarilla (smushyaa@gmail.com)
- * @date   October 11, 2025
+ * @brief  Example of ini parser.
+ * @author Alicia D. Amarilla (smushyaa@gmail.com)
+ * @date   June 18, 2026
 */
+// all functions are inline
 #include "ini-parser.h"
 
-int main( int argc, char** argv ) {
-    const char* path = "example.ini";
-    if( argc >= 2 ) {
-        path = argv[1];
+int main(int argc, char **argv) {
+    (void)argc, (void)argv;
+    struct IniParserContext ctx;
+
+    ini_parser_begin(&ctx); {
+        ini_parser_begin_section(&ctx, "some_section"); {
+            ini_parser_comment(&ctx, "this is a section");
+
+            ini_parser_begin_field(&ctx, "some_null"); {
+                ini_parser_value(&ctx, "null");
+                ini_parser_comment(&ctx, "this is a null value");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_bool"); {
+                ini_parser_value(&ctx, "true");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_integer"); {
+                ini_parser_value(&ctx, "34534");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_float"); {
+                ini_parser_value(&ctx, "34534.325");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_string"); {
+                ini_parser_value(&ctx, "hello, world!");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_other_string"); {
+                ini_parser_value(&ctx, "hello, world!\n");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_begin_field(&ctx, "some_other_other_string"); {
+                ini_parser_value(&ctx, "hello, world!\\\"");
+                ini_parser_end_field(&ctx);
+            }
+
+            ini_parser_end_section(&ctx);
+        }
+
+        ini_parser_serialize_file(&ctx, stdout);
+
+        ini_parser_end(&ctx);
     }
 
-    IniCtx ctx = {0};
+    if(argc > 1) {
+        printf("\n\n------ deserialize -----\n\n");
+        ini_parser_begin(&ctx);
 
-    ini_open( path, &ctx );
+        if(ini_parser_deserialize_file_path(&ctx, argv[1])) {
+            ini_parser_serialize_file(&ctx, stdout);
+        } else {
+            fprintf(stderr, "failed to open %s!\n", argv[1]);
+        }
 
-    ini_set_section_comment( &ctx, NULL, "this is an example file for ini-parse.h" );
-    ini_set_section_comment( &ctx, "section", "section names cannot include [ or ]" );
+        ini_parser_end(&ctx);
+    }
 
-    ini_read( &ctx, NULL, "bar", .default_value="baz", .comment="example of a key/value pair" );
-    ini_read( &ctx, NULL, "foo", .default_value="bar", .comment="another example of a key/value pair" );
-
-    ini_read(
-        &ctx, "section", "string-quotes", .default_value="\"  Quoted string.\"",
-        .comment="strings can be quoted in order to include surrounding whitespace" );
-
-    ini_serialize_to_file( &ctx, path, true );
-
-    ini_close( &ctx );
     return 0;
 }
 
