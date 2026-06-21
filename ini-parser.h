@@ -1228,9 +1228,9 @@ bool ini_parser_serialize_file_path(
 
     const char *mode;
     if(ini_parser_flag_read(ctx, INI_PARSER_FLAG_SERIALIZE_APPEND_IF_EXISTS)) {
-        mode = "wb";
-    } else {
         mode = "ab";
+    } else {
+        mode = "wb";
     }
 
     f = fopen(fp, mode);
