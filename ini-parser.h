@@ -1137,6 +1137,7 @@ size_t __ini_parser_write_fmt(
 
     const char *message = ctx->tmp.ptr + off;
     size_t message_len  = ctx->tmp.len - off;
+    message_len = message_len ? message_len - 1 : message_len;
 
     return stream(target, message_len, message);
 }
